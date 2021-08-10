@@ -1,11 +1,7 @@
-import React from 'react'
 import Menu from '@jasonrundell/react-mega-menu'
 
 // Components
 import SkipToMain from './components/SkipToMain'
-
-// CSS
-import './App.scss'
 
 // Images
 import logoImage from './images/logos/logo.svg'
