@@ -1,91 +1,91 @@
-import React, { useRef, useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useRef, useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 // Components
-import TopBar from "./components/TopBar";
-import Logo from "./components/Logo";
-import TopBarTitle from "./components/TopBarTitle";
-import Hamburger from "./components/Hamburger";
-import Nav from "./components/Nav";
-import MainList from "./components/MainList";
-import MegaList from "./components/MegaList";
-import MainNavItem from "./components/MainNavItem";
-import MainNavItemLink from "./components/MainNavItemLink";
-import NavItem from "./components/NavItem";
-import NavItemLink from "./components/NavItemLink";
-import NavList from "./components/NavList";
-import NavItemDescription from "./components/NavItemDescription";
+import TopBar from './components/TopBar'
+import Logo from './components/Logo'
+import TopBarTitle from './components/TopBarTitle'
+import Hamburger from './components/Hamburger'
+import Nav from './components/Nav'
+import MainList from './components/MainList'
+import MegaList from './components/MegaList'
+import MainNavItem from './components/MainNavItem'
+import MainNavItemLink from './components/MainNavItemLink'
+import NavItem from './components/NavItem'
+import NavItemLink from './components/NavItemLink'
+import NavList from './components/NavList'
+import NavItemDescription from './components/NavItemDescription'
 
 // State Machines
-import { MenuStateMachine } from "./state-machines/menus";
+import { MenuStateMachine } from './state-machines/menus'
 
 const Menu = ({ logoImage }) => {
-  const [megaMenuState, setMegaMenuState] = useState("");
-  const [subMenuState, setSubMenuState] = useState("");
-  const [subSubMenuState, setSubSubMenuState] = useState("");
-  const [activeMenus, setActiveMenus] = useState([]); // array that captures the ids of active menus
-  const [isMobile, setIsMobile] = useState(true); // array that captures the ids of active menus
-  const wrapperRef = useRef(null); // used to detect clicks outside of component
+  const [megaMenuState, setMegaMenuState] = useState('')
+  const [subMenuState, setSubMenuState] = useState('')
+  const [subSubMenuState, setSubSubMenuState] = useState('')
+  const [activeMenus, setActiveMenus] = useState([]) // array that captures the ids of active menus
+  const [isMobile, setIsMobile] = useState(true) // array that captures the ids of active menus
+  const wrapperRef = useRef(null) // used to detect clicks outside of component
 
-  const viewportLarge = 1024;
+  const viewportLarge = 1024
 
   const resetMenus = () => {
     // close all menus and empty activeMenus array
-    setActiveMenus([]);
-    setSubMenuState("closed");
-    setSubSubMenuState("closed");
-  };
+    setActiveMenus([])
+    setSubMenuState('closed')
+    setSubSubMenuState('closed')
+  }
 
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
       // Reset menu if clicked on outside of element
       const handleClickOutside = (e) => {
         if (ref.current && !ref.current.contains(e.target)) {
-          resetMenus();
+          resetMenus()
         }
-      };
+      }
 
       // Bind the event listener to both mouse and key events
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keydown', handleClickOutside)
       return () => {
         // Unbind the event listener to clean up
-        document.removeEventListener("mousedown", handleClickOutside);
-        document.removeEventListener("keydown", handleClickOutside);
-      };
-    }, [ref]);
-  };
+        document.removeEventListener('mousedown', handleClickOutside)
+        document.removeEventListener('keydown', handleClickOutside)
+      }
+    }, [ref])
+  }
 
   const updateActiveMenus = (state, menuId) => {
-    if (state === "open") {
+    if (state === 'open') {
       // add menuId from activeMenus
-      setActiveMenus([...activeMenus, menuId]);
-    } else if (state === "closed") {
+      setActiveMenus([...activeMenus, menuId])
+    } else if (state === 'closed') {
       // remove menuId from activeMenus
-      setActiveMenus(activeMenus.filter((item) => item !== menuId));
+      setActiveMenus(activeMenus.filter((item) => item !== menuId))
     }
-  };
+  }
 
   const toggleMegaMenu = (e, menuId) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const nextState = MenuStateMachine(megaMenuState);
+    const nextState = MenuStateMachine(megaMenuState)
 
-    setMegaMenuState(nextState);
+    setMegaMenuState(nextState)
 
-    updateActiveMenus(nextState, menuId);
+    updateActiveMenus(nextState, menuId)
 
-    if (megaMenuState === "open") {
-      resetMenus();
+    if (megaMenuState === 'open') {
+      resetMenus()
     }
-  };
+  }
 
   const toggleSubMenu = (e, menuId) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const nextState = MenuStateMachine(subMenuState);
+    const nextState = MenuStateMachine(subMenuState)
 
-    setSubMenuState(MenuStateMachine(subMenuState));
+    setSubMenuState(MenuStateMachine(subMenuState))
     /*
       I haven't come up with single solution (yet) that takes care of
       opening and closing menus for both small and large screens, so for
@@ -94,57 +94,57 @@ const Menu = ({ logoImage }) => {
     if (!isMobile) {
       if (activeMenus.includes(menuId)) {
         // menu is already open, remove it from activeMenus to close it
-        setActiveMenus([]);
+        setActiveMenus([])
       } else {
         // menu is not yet active, add it to activeMenus to open it
-        setActiveMenus([menuId]);
+        setActiveMenus([menuId])
       }
     } else {
       // remove menuId from activeMenus
-      updateActiveMenus(nextState, menuId);
+      updateActiveMenus(nextState, menuId)
     }
-  };
+  }
 
   const toggleSubSubMenu = (e, menuId) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const nextState = MenuStateMachine(subSubMenuState);
+    const nextState = MenuStateMachine(subSubMenuState)
 
-    setSubSubMenuState(MenuStateMachine(subSubMenuState));
+    setSubSubMenuState(MenuStateMachine(subSubMenuState))
 
-    updateActiveMenus(nextState, menuId);
-  };
+    updateActiveMenus(nextState, menuId)
+  }
 
   useEffect(() => {
     if (window.innerWidth >= viewportLarge) {
-      setIsMobile(false);
+      setIsMobile(false)
     } else {
-      setIsMobile(true);
+      setIsMobile(true)
     }
-  }, [activeMenus, isMobile]);
+  }, [activeMenus, isMobile])
 
   const doEscape = (e) => {
     if (e.keyCode === 27) {
-      resetMenus();
+      resetMenus()
     }
-  };
+  }
 
   const a11yClick = (e) => {
-    const code = e.charCode || e.keyCode;
+    const code = e.charCode || e.keyCode
     if (code === 32 || code === 13) {
-      return true;
+      return true
     }
-  };
+  }
 
   useEffect(() => {
-    document.addEventListener("keydown", doEscape, false);
+    document.addEventListener('keydown', doEscape, false)
 
     return () => {
-      document.removeEventListener("keydown", doEscape, false);
-    };
-  });
+      document.removeEventListener('keydown', doEscape, false)
+    }
+  })
 
-  useOutsideAlerter(wrapperRef); // create bindings for closing menu from outside events
+  useOutsideAlerter(wrapperRef) // create bindings for closing menu from outside events
 
   return (
     <div role="navigation" className="rmm__root" ref={wrapperRef}>
@@ -162,7 +162,7 @@ const Menu = ({ logoImage }) => {
       <Hamburger
         label="Menu"
         state={megaMenuState}
-        onClick={(e) => toggleMegaMenu(e, "nav-main")}
+        onClick={(e) => toggleMegaMenu(e, 'nav-main')}
       />
       <Nav
         id="site-nav"
@@ -182,10 +182,10 @@ const Menu = ({ logoImage }) => {
               id="menuitem-Mega-Menu"
               href="/?page=mega-menu"
               isForward
-              isActive={!!activeMenus.includes("menu-Mega-Menu")}
-              onClick={(e) => toggleSubMenu(e, "menu-Mega-Menu")}
+              isActive={!!activeMenus.includes('menu-Mega-Menu')}
+              onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
               onKeyDown={(e) =>
-                a11yClick(e) && toggleSubMenu(e, "menu-Mega-Menu")
+                a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
               }
               ariaHaspopup="true"
               ariaControls="menu-Mega-Menu"
@@ -195,16 +195,16 @@ const Menu = ({ logoImage }) => {
             <MegaList
               id="menu-Mega-Menu"
               activeState={
-                activeMenus.includes("menu-Mega-Menu") ? "open" : "closed"
+                activeMenus.includes('menu-Mega-Menu') ? 'open' : 'closed'
               }
             >
               <NavItem id="nav-Mega-Menu-back" isHeading={true}>
                 <NavItemLink
                   id="menuitem-Mega-Menu-back"
                   href="/?page=mega-menu"
-                  onClick={(e) => toggleSubMenu(e, "menu-Mega-Menu")}
+                  onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
                   onKeyDown={(e) =>
-                    a11yClick(e) && toggleSubMenu(e, "menu-Mega-Menu")
+                    a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
                   }
                   ariaControls="nav-main-Mega-Menu"
                   isBack
@@ -247,11 +247,11 @@ const Menu = ({ logoImage }) => {
                   isHeading
                   isForward
                   onClick={(e) =>
-                    toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-3")
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
                   }
                   onKeyDown={(e) =>
                     a11yClick(e) &&
-                    toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-3")
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
                   }
                   ariaHaspopup="true"
                   ariaControls="menu-Mega-Menu-Sub-menu-item-3"
@@ -269,9 +269,9 @@ const Menu = ({ logoImage }) => {
                   isSub
                   isSubSub
                   activeState={
-                    activeMenus.includes("menu-Mega-Menu-Sub-menu-item-3")
-                      ? "open"
-                      : "closed"
+                    activeMenus.includes('menu-Mega-Menu-Sub-menu-item-3')
+                      ? 'open'
+                      : 'closed'
                   }
                   ariaLabelledby="menuitem-Mega-Menu-Sub-menu-item-3"
                 >
@@ -286,11 +286,11 @@ const Menu = ({ logoImage }) => {
                       href="/?page=sub-menu-item-3"
                       isBack
                       onClick={(e) =>
-                        toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-3")
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
                       }
                       onKeyDown={(e) =>
                         a11yClick(e) &&
-                        toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-3")
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
                       }
                       ariaHaspopup="true"
                       ariaControls="menu-Mega-Menu-Sub-menu-item-3"
@@ -349,11 +349,11 @@ const Menu = ({ logoImage }) => {
                   isHeading
                   isForward
                   onClick={(e) =>
-                    toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-4")
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-4')
                   }
                   onKeyDown={(e) =>
                     a11yClick(e) &&
-                    toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-4")
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-4')
                   }
                   ariaHaspopup="true"
                   ariaControls="menu-Mega-Menu-Sub-menu-item-4"
@@ -371,9 +371,9 @@ const Menu = ({ logoImage }) => {
                   isSub
                   isSubSub
                   activeState={
-                    activeMenus.includes("menu-Mega-Menu-Sub-menu-item-4")
-                      ? "open"
-                      : "closed"
+                    activeMenus.includes('menu-Mega-Menu-Sub-menu-item-4')
+                      ? 'open'
+                      : 'closed'
                   }
                   ariaLabelledby="menuitem-Mega-Menu-Sub-menu-item-4"
                 >
@@ -388,11 +388,11 @@ const Menu = ({ logoImage }) => {
                       href="/?page=sub-menu-item-4"
                       isBack
                       onClick={(e) =>
-                        toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-4")
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-4')
                       }
                       onKeyDown={(e) =>
                         a11yClick(e) &&
-                        toggleSubSubMenu(e, "menu-Mega-Menu-Sub-menu-item-4")
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-4')
                       }
                       ariaHaspopup="true"
                       ariaControls="menu-Mega-Menu-Sub-menu-item-4"
@@ -470,12 +470,12 @@ const Menu = ({ logoImage }) => {
         </MainList>
       </Nav>
     </div>
-  );
-};
+  )
+}
 
-Menu.defaultProps = { logoImage: null };
+Menu.defaultProps = { logoImage: null }
 Menu.propTypes = {
   logoImage: PropTypes.string,
-};
+}
 
-export default Menu;
+export default Menu
