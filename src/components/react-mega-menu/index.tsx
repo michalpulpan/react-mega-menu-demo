@@ -17,13 +17,17 @@ import NavList from './components/NavList'
 import NavItemDescription from './components/NavItemDescription'
 
 // State Machines
-import { MenuStateMachine } from './state-machines/menus'
+import { TMenuState, MenuStateMachine } from './state-machines/menus'
 
-const Menu = ({ logoImage }) => {
-  const [megaMenuState, setMegaMenuState] = useState('')
-  const [subMenuState, setSubMenuState] = useState('')
-  const [subSubMenuState, setSubSubMenuState] = useState('')
-  const [activeMenus, setActiveMenus] = useState([]) // array that captures the ids of active menus
+interface IMenu {
+  logoImage: string
+}
+
+const Menu = ({ logoImage }: IMenu) => {
+  const [megaTMenuState, setMegaTMenuState] = useState<TMenuState>('')
+  const [subTMenuState, setSubTMenuState] = useState<TMenuState>('')
+  const [subSubTMenuState, setSubSubTMenuState] = useState<TMenuState>('')
+  const [activeMenus, setActiveMenus] = useState<string[]>([]) // array that captures the ids of active menus
   const [isMobile, setIsMobile] = useState(true) // array that captures the ids of active menus
   const wrapperRef = useRef(null) // used to detect clicks outside of component
 
@@ -32,8 +36,8 @@ const Menu = ({ logoImage }) => {
   const resetMenus = () => {
     // close all menus and empty activeMenus array
     setActiveMenus([])
-    setSubMenuState('closed')
-    setSubSubMenuState('closed')
+    setSubTMenuState('closed')
+    setSubSubTMenuState('closed')
   }
 
   const useOutsideAlerter = (ref) => {
@@ -69,13 +73,13 @@ const Menu = ({ logoImage }) => {
   const toggleMegaMenu = (e, menuId) => {
     e.preventDefault()
 
-    const nextState = MenuStateMachine(megaMenuState)
+    const nextState = MenuStateMachine(megaTMenuState)
 
-    setMegaMenuState(nextState)
+    setMegaTMenuState(nextState)
 
     updateActiveMenus(nextState, menuId)
 
-    if (megaMenuState === 'open') {
+    if (megaTMenuState === 'open') {
       resetMenus()
     }
   }
@@ -83,9 +87,9 @@ const Menu = ({ logoImage }) => {
   const toggleSubMenu = (e, menuId) => {
     e.preventDefault()
 
-    const nextState = MenuStateMachine(subMenuState)
+    const nextState = MenuStateMachine(subTMenuState)
 
-    setSubMenuState(MenuStateMachine(subMenuState))
+    setSubTMenuState(MenuStateMachine(subTMenuState))
     /*
       I haven't come up with single solution (yet) that takes care of
       opening and closing menus for both small and large screens, so for
@@ -108,9 +112,9 @@ const Menu = ({ logoImage }) => {
   const toggleSubSubMenu = (e, menuId) => {
     e.preventDefault()
 
-    const nextState = MenuStateMachine(subSubMenuState)
+    const nextState = MenuStateMachine(subSubTMenuState)
 
-    setSubSubMenuState(MenuStateMachine(subSubMenuState))
+    setSubSubTMenuState(MenuStateMachine(subSubTMenuState))
 
     updateActiveMenus(nextState, menuId)
   }
@@ -161,12 +165,12 @@ const Menu = ({ logoImage }) => {
       </TopBar>
       <Hamburger
         label="Menu"
-        state={megaMenuState}
+        state={megaTMenuState}
         onClick={(e) => toggleMegaMenu(e, 'nav-main')}
       />
       <Nav
         id="site-nav"
-        activeState={megaMenuState}
+        activeState={megaTMenuState}
         ariaLabel="Main Navigation"
       >
         <MainList id="menubar-main" ariaLabel="Main Menu">
@@ -184,6 +188,7 @@ const Menu = ({ logoImage }) => {
               isForward
               isActive={!!activeMenus.includes('menu-Mega-Menu')}
               onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
+              onMouseEnter={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
               onKeyDown={(e) =>
                 a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
               }
@@ -471,11 +476,6 @@ const Menu = ({ logoImage }) => {
       </Nav>
     </div>
   )
-}
-
-Menu.defaultProps = { logoImage: null }
-Menu.propTypes = {
-  logoImage: PropTypes.string,
 }
 
 export default Menu

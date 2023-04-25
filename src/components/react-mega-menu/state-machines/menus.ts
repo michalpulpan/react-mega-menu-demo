@@ -1,7 +1,9 @@
-const MenuStateMachine = (state) => {
-  const validStates = ['closed', 'open']
+export type TMenuState = 'closed' | 'open' | ''
+
+const MenuStateMachine = (state: TMenuState): TMenuState => {
+  const validStates: TMenuState[] = ['closed', 'open']
   const defaultState = 'open'
-  let stateChangedTo = defaultState
+  let stateChangedTo: TMenuState = defaultState
 
   if (validStates.includes(state)) {
     switch (state) {

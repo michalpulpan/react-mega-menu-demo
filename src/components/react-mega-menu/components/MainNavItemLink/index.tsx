@@ -4,6 +4,30 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
+interface IMainNavItemLink {
+  id: string
+  role?: string
+  href: string
+  isBack?: boolean
+  isForward?: boolean
+  isActive?: boolean
+  className?: string
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  onMouseEnter?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLAnchorElement>) => void
+  ariaHaspopup?:
+    | boolean
+    | 'dialog'
+    | 'menu'
+    | 'grid'
+    | 'listbox'
+    | 'tree'
+    | 'false'
+    | 'true'
+  ariaControls?: string
+  children: React.ReactNode
+}
+
 const MainNavItemLink = ({
   id,
   role,
@@ -12,12 +36,13 @@ const MainNavItemLink = ({
   isForward,
   isActive,
   className,
+  onMouseEnter,
   onClick,
   onKeyDown,
   ariaHaspopup,
   ariaControls,
-  children
-}) => {
+  children,
+}: IMainNavItemLink) => {
   const rootClasses = classNames(
     'rmm__main-nav-item-link',
     isBack && 'rmm__main-nav-item-link--back',
@@ -32,6 +57,7 @@ const MainNavItemLink = ({
       href={href}
       className={rootClasses}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
       onKeyDown={onKeyDown}
       aria-haspopup={ariaHaspopup}
       aria-controls={ariaControls}
@@ -39,28 +65,6 @@ const MainNavItemLink = ({
       {children}
     </a>
   )
-}
-
-MainNavItemLink.defaultProps = {
-  role: 'menuitem',
-  isBack: false,
-  isForward: false,
-  isActive: false
-}
-
-MainNavItemLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  role: PropTypes.string,
-  href: PropTypes.string.isRequired,
-  isBack: PropTypes.bool,
-  isForward: PropTypes.bool,
-  isActive: PropTypes.bool,
-  className: PropTypes.string,
-  onClick: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  ariaHaspopup: PropTypes.string,
-  ariaControls: PropTypes.string,
-  children: PropTypes.node.isRequired
 }
 
 export default MainNavItemLink
