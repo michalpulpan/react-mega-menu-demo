@@ -1,4 +1,4 @@
-import Menu from '@jasonrundell/react-mega-menu'
+import Menu from './components/react-mega-menu'
 
 // Components
 import SkipToMain from './components/SkipToMain'
