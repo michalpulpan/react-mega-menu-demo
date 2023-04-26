@@ -4,7 +4,13 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
-const TopBarTitle = ({ id, className, children }) => {
+interface ITopBarTitleProps {
+  id?: string
+  className?: string
+  children: React.ReactNode
+}
+
+const TopBarTitle = ({ id, className, children }: ITopBarTitleProps) => {
   const rootClasses = classNames('rmm__top-bar-title', className && className)
 
   return (
@@ -12,12 +18,6 @@ const TopBarTitle = ({ id, className, children }) => {
       {children}
     </h1>
   )
-}
-
-TopBarTitle.propTypes = {
-  id: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired
 }
 
 export default TopBarTitle

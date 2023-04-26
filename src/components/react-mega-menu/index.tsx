@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 // Components
-import TopBar from './components/TopBar'
+import TopBar from './components/TopBar/TopBar'
 import Logo from './components/Logo'
-import TopBarTitle from './components/TopBarTitle'
+import TopBarTitle from './components/TopBarTitle/TopBarTitle'
 import Hamburger from './components/Hamburger'
 import Nav from './components/Nav'
 import MainList from './components/MainList'
@@ -188,7 +188,7 @@ const Menu = ({ logoImage }: IMenu) => {
               isForward
               isActive={!!activeMenus.includes('menu-Mega-Menu')}
               onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
-              onMouseEnter={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
+              // onMouseEnter={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
               onKeyDown={(e) =>
                 a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
               }
@@ -458,6 +458,173 @@ const Menu = ({ logoImage }: IMenu) => {
                     >
                       Sub menu item 4.6
                     </NavItemLink>
+                  </NavItem>
+                </NavList>
+              </NavItem>
+            </MegaList>
+          </MainNavItem>
+          <MainNavItem id="nav-Mega-Menu-2" role="none" isChildren>
+            <MainNavItemLink
+              role="menuitem"
+              id="menuitem-Mega-Menu-2"
+              href="/?page=mega-menu"
+              isForward
+              isActive={!!activeMenus.includes('menu-Mega-Menu-2')}
+              onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu-2')}
+              // onMouseEnter={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
+              onKeyDown={(e) =>
+                a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu-2')
+              }
+              ariaHaspopup="true"
+              ariaControls="menu-Mega-Menu-2"
+            >
+              Mega Menu 2
+            </MainNavItemLink>
+            <MegaList
+              id="menu-Mega-Menu-2"
+              activeState={
+                activeMenus.includes('menu-Mega-Menu-2') ? 'open' : 'closed'
+              }
+            >
+              <NavItem id="nav-Mega-Menu-back" isHeading={true}>
+                <NavItemLink
+                  id="menuitem-Mega-Menu-back"
+                  href="/?page=mega-menu"
+                  onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
+                  onKeyDown={(e) =>
+                    a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
+                  }
+                  ariaControls="nav-main-Mega-Menu"
+                  isBack
+                >
+                  Mega Menu 2
+                </NavItemLink>
+              </NavItem>
+              <NavItem id="nav-Mega-Menu-Sub-menu-item-1" role="none">
+                <NavItemLink
+                  id="menuitem-Mega-Menu-Sub-menu-item-1"
+                  role="menuitem"
+                  href="/?page=sub-menu-item-1"
+                  isHeading
+                >
+                  Sub menu item 1
+                </NavItemLink>
+                <NavItemDescription>
+                  Single line description that accompanies link
+                </NavItemDescription>
+              </NavItem>
+              <NavItem id="nav-Mega-Menu-Sub-menu-item-2" role="none">
+                <NavItemLink
+                  id="menuitem-Mega-Menu-Sub-menu-item-2"
+                  role="menuitem"
+                  href="/?page=sub-menu-item-2"
+                  isHeading
+                >
+                  Sub menu item 2
+                </NavItemLink>
+                <NavItemDescription>
+                  Double lined small description that accompanies link in the
+                  React Mega Menu project
+                </NavItemDescription>
+              </NavItem>
+              <NavItem id="nav-Mega-Menu-Sub-menu-item-3" role="none">
+                <NavItemLink
+                  id="menuitem-Mega-Menu-Sub-menu-item-3"
+                  role="menuitem"
+                  href="/?page=sub-menu-item-3"
+                  isHeading
+                  isForward
+                  onClick={(e) =>
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
+                  }
+                  onKeyDown={(e) =>
+                    a11yClick(e) &&
+                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
+                  }
+                  ariaHaspopup="true"
+                  ariaControls="menu-Mega-Menu-Sub-menu-item-3"
+                >
+                  Sub menu item 3
+                </NavItemLink>
+                <NavItemDescription>
+                  Three lined small description that accompanies link in the
+                  React Mega Menu project. This maybe too much text? Who&lsquo;s
+                  to say, really. We&lsquo;ll leave it to fate to decide.
+                </NavItemDescription>
+                <NavList
+                  id="menu-Mega-Menu-Sub-menu-item-3"
+                  role="menu"
+                  isSub
+                  isSubSub
+                  activeState={
+                    activeMenus.includes('menu-Mega-Menu-Sub-menu-item-3')
+                      ? 'open'
+                      : 'closed'
+                  }
+                  ariaLabelledby="menuitem-Mega-Menu-Sub-menu-item-3"
+                >
+                  <NavItem
+                    id="nav-Mega-Menu-Sub-menu-item-3-back"
+                    role="none"
+                    isHeading
+                  >
+                    <NavItemLink
+                      id="menuitem-Mega-Menu-Sub-menu-item-3-back"
+                      role="menuitem"
+                      href="/?page=sub-menu-item-3"
+                      isBack
+                      onClick={(e) =>
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
+                      }
+                      onKeyDown={(e) =>
+                        a11yClick(e) &&
+                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
+                      }
+                      ariaHaspopup="true"
+                      ariaControls="menu-Mega-Menu-Sub-menu-item-3"
+                    >
+                      Sub menu item 3
+                    </NavItemLink>
+                  </NavItem>
+                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.1" role="none">
+                    <NavItemLink
+                      id="menuitem-Mega-Menu-Sub-menu-item-3.1"
+                      role="menuitem"
+                      href="/?page=sub-menu-item-3.1"
+                    >
+                      Sub menu item 3.1
+                    </NavItemLink>
+                    <NavItemDescription>
+                      Single line description that accompanies link
+                    </NavItemDescription>
+                  </NavItem>
+                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.2" role="none">
+                    <NavItemLink
+                      id="menuitem-Mega-Menu-Sub-menu-item-3.2"
+                      role="menuitem"
+                      href="/?page=sub-menu-item-3.2"
+                    >
+                      Sub menu item 3.2
+                    </NavItemLink>
+                    <NavItemDescription>
+                      Double lined small description that accompanies link in
+                      the React Mega Menu project
+                    </NavItemDescription>
+                  </NavItem>
+                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.3" role="none">
+                    <NavItemLink
+                      id="menuitem-Mega-Menu-Sub-menu-item-3.3"
+                      role="menuitem"
+                      href="/?page=sub-menu-item-3.3"
+                    >
+                      Sub menu item 3.3
+                    </NavItemLink>
+                    <NavItemDescription>
+                      Three lined small description that accompanies link in the
+                      React Mega Menu project. This maybe too much text?
+                      Who&lsquo;s to say, really. We&lsquo;ll leave it to fate
+                      to decide.
+                    </NavItemDescription>
                   </NavItem>
                 </NavList>
               </NavItem>

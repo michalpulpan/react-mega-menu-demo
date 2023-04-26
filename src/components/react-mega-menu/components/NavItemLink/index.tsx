@@ -4,21 +4,46 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
+interface INavItemLinkProps {
+  id: string
+  role?: string
+  href: string
+  isBack?: boolean
+  isHeading?: boolean
+  isForward?: boolean
+  isActive?: boolean
+  className?: string
+  onClick?: () => void
+  onKeyDown?: () => void
+  ariaHaspopup?:
+    | boolean
+    | 'dialog'
+    | 'menu'
+    | 'grid'
+    | 'listbox'
+    | 'tree'
+    | false
+    | true
+    | undefined
+  ariaControls?: string
+  children: React.ReactNode
+}
+
 const NavItemLink = ({
   id,
-  role,
+  role = 'menuitem',
   href,
-  isBack,
-  isHeading,
-  isForward,
-  isActive,
+  isBack = false,
+  isHeading = false,
+  isForward = false,
+  isActive = false,
   className,
   onClick,
   onKeyDown,
   ariaHaspopup,
   ariaControls,
-  children
-}) => {
+  children,
+}: INavItemLinkProps) => {
   const rootClasses = classNames(
     'rmm__nav-item-link',
     isBack && 'rmm__nav-item-link--back',
@@ -41,30 +66,6 @@ const NavItemLink = ({
       {children}
     </a>
   )
-}
-
-NavItemLink.defaultProps = {
-  role: 'menuitem',
-  isBack: false,
-  isHeading: false,
-  isForward: false,
-  isActive: false
-}
-
-NavItemLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  role: PropTypes.string,
-  href: PropTypes.string.isRequired,
-  isBack: PropTypes.bool,
-  isHeading: PropTypes.bool,
-  isForward: PropTypes.bool,
-  isActive: PropTypes.bool,
-  className: PropTypes.string,
-  onClick: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  ariaHaspopup: PropTypes.string,
-  ariaControls: PropTypes.string,
-  children: PropTypes.node.isRequired
 }
 
 export default NavItemLink

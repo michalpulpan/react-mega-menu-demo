@@ -4,15 +4,25 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
+interface IMainNavItemProps {
+  id: string
+  role?: string
+  isHeading?: boolean
+  isChildren?: boolean
+  isForward?: boolean
+  className?: string
+  children: React.ReactNode
+}
+
 const MainNavItem = ({
   id,
-  role,
-  isHeading,
-  isChildren,
-  isForward,
+  role = 'none',
+  isHeading = false,
+  isChildren = false,
+  isForward = false,
   className,
-  children
-}) => {
+  children,
+}: IMainNavItemProps) => {
   const rootClasses = classNames(
     'rmm__main-nav-item',
     isHeading && 'rmm__main-nav-item--heading',
@@ -25,23 +35,6 @@ const MainNavItem = ({
       {children}
     </li>
   )
-}
-
-MainNavItem.defaultProps = {
-  role: 'none',
-  isHeading: false,
-  hasChildren: false,
-  isForward: false
-}
-
-MainNavItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  role: PropTypes.string,
-  isHeading: PropTypes.bool,
-  isChildren: PropTypes.bool,
-  isForward: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired
 }
 
 export default MainNavItem

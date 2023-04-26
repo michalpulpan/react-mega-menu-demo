@@ -4,7 +4,13 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
-const MegaList = ({ id, activeState, children }) => {
+interface IMegaListProps {
+  id: string
+  activeState: '' | 'open' | 'closed'
+  children: React.ReactNode
+}
+
+const MegaList = ({ id, activeState = '', children }: IMegaListProps) => {
   const rootClasses = classNames(
     'rmm__mega-list',
     activeState && `rmm__mega-list--${activeState}`
@@ -14,16 +20,6 @@ const MegaList = ({ id, activeState, children }) => {
       {children}
     </ul>
   )
-}
-
-MegaList.defaultProps = {
-  activeState: ''
-}
-
-MegaList.propTypes = {
-  id: PropTypes.string.isRequired,
-  activeState: PropTypes.oneOf(['open', 'closed']).isRequired,
-  children: PropTypes.node.isRequired
 }
 
 export default MegaList

@@ -4,7 +4,19 @@ import PropTypes from 'prop-types'
 // Utils
 import { classNames } from '../../utils/css'
 
-const Nav = ({ id, ariaLabel, activeState, children }) => {
+interface INavProps {
+  id: string
+  ariaLabel: string
+  activeState: '' | 'open' | 'closed'
+  children: React.ReactNode
+}
+
+const Nav = ({
+  id,
+  ariaLabel = 'Main Navigation',
+  activeState = '',
+  children,
+}: INavProps) => {
   const rootClasses = classNames(
     'rmm__nav',
     activeState && `rmm__nav--${activeState}`
@@ -15,18 +27,6 @@ const Nav = ({ id, ariaLabel, activeState, children }) => {
       {children}
     </nav>
   )
-}
-
-Nav.defaultProps = {
-  ariaLabel: 'Main Navigation',
-  activeState: ''
-}
-
-Nav.propTypes = {
-  id: PropTypes.string.isRequired,
-  ariaLabel: PropTypes.string.isRequired,
-  activeState: PropTypes.oneOf(['', 'open', 'closed']).isRequired,
-  children: PropTypes.node.isRequired
 }
 
 export default Nav

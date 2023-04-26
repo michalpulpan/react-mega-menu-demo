@@ -1,7 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const MainList = ({ id, children, ariaLabel }) => {
+interface IMainList {
+  id: string
+  ariaLabel?: string
+  children: React.ReactNode
+}
+
+const MainList = ({ id, children, ariaLabel = 'Main menu' }: IMainList) => {
   return (
     <ul
       id={id}
@@ -12,16 +18,6 @@ const MainList = ({ id, children, ariaLabel }) => {
       {children}
     </ul>
   )
-}
-
-MainList.defaultProps = {
-  ariaLabel: 'Main menu'
-}
-
-MainList.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  ariaLabel: PropTypes.string.isRequired
 }
 
 export default MainList
