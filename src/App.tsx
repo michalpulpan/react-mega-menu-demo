@@ -1,16 +1,11 @@
 import React from 'react'
-import Menu from './components/react-mega-menu'
-
-// Components
-import SkipToMain from './components/SkipToMain/SkipToMain'
-
+import Menu from './components/MegaMenu'
 // Images
 import logoImage from './images/logos/logo.svg'
 
 const App = ({}) => {
   return (
     <div className="page">
-      <SkipToMain>Skip to main content</SkipToMain>
       <Menu logoImage={logoImage} />
       <main id="main">
         <section>
