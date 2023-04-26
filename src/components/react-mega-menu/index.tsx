@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, RefObject } from 'react'
 import PropTypes from 'prop-types'
 
 // Components
@@ -29,7 +29,7 @@ const Menu = ({ logoImage }: IMenu) => {
   const [subSubTMenuState, setSubSubTMenuState] = useState<TMenuState>('')
   const [activeMenus, setActiveMenus] = useState<string[]>([]) // array that captures the ids of active menus
   const [isMobile, setIsMobile] = useState(true) // array that captures the ids of active menus
-  const wrapperRef = useRef(null) // used to detect clicks outside of component
+  const wrapperRef = useRef<HTMLDivElement>(null) // used to detect clicks outside of component
 
   const viewportLarge = 1024
 
@@ -40,11 +40,15 @@ const Menu = ({ logoImage }: IMenu) => {
     setSubSubTMenuState('closed')
   }
 
-  const useOutsideAlerter = (ref) => {
+  const useOutsideAlerter = (ref: RefObject<HTMLDivElement>) => {
     useEffect(() => {
       // Reset menu if clicked on outside of element
-      const handleClickOutside = (e) => {
-        if (ref.current && !ref.current.contains(e.target)) {
+      const handleClickOutside = (e: MouseEvent | KeyboardEvent) => {
+        if (
+          ref.current &&
+          e.target instanceof HTMLElement &&
+          !ref.current.contains(e.target)
+        ) {
           resetMenus()
         }
       }
@@ -60,7 +64,7 @@ const Menu = ({ logoImage }: IMenu) => {
     }, [ref])
   }
 
-  const updateActiveMenus = (state, menuId) => {
+  const updateActiveMenus = (state: TMenuState, menuId: string) => {
     if (state === 'open') {
       // add menuId from activeMenus
       setActiveMenus([...activeMenus, menuId])
@@ -70,7 +74,10 @@ const Menu = ({ logoImage }: IMenu) => {
     }
   }
 
-  const toggleMegaMenu = (e, menuId) => {
+  const toggleMegaMenu = (
+    e: MouseEvent | KeyboardEvent | React.MouseEvent,
+    menuId: string
+  ) => {
     e.preventDefault()
 
     const nextState = MenuStateMachine(megaTMenuState)
@@ -84,7 +91,10 @@ const Menu = ({ logoImage }: IMenu) => {
     }
   }
 
-  const toggleSubMenu = (e, menuId) => {
+  const toggleSubMenu = (
+    e: MouseEvent | KeyboardEvent | React.MouseEvent | React.KeyboardEvent,
+    menuId: string
+  ) => {
     e.preventDefault()
 
     const nextState = MenuStateMachine(subTMenuState)
@@ -109,7 +119,10 @@ const Menu = ({ logoImage }: IMenu) => {
     }
   }
 
-  const toggleSubSubMenu = (e, menuId) => {
+  const toggleSubSubMenu = (
+    e: MouseEvent | KeyboardEvent | React.MouseEvent | React.KeyboardEvent,
+    menuId: string
+  ) => {
     e.preventDefault()
 
     const nextState = MenuStateMachine(subSubTMenuState)
@@ -127,15 +140,15 @@ const Menu = ({ logoImage }: IMenu) => {
     }
   }, [activeMenus, isMobile])
 
-  const doEscape = (e) => {
-    if (e.keyCode === 27) {
+  const doEscape = (e: KeyboardEvent | React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
       resetMenus()
     }
   }
 
-  const a11yClick = (e) => {
-    const code = e.charCode || e.keyCode
-    if (code === 32 || code === 13) {
+  const a11yClick = (e: KeyboardEvent | React.KeyboardEvent) => {
+    const key = e.key || e.key
+    if (key === ' ' || key === 'Enter') {
       return true
     }
   }
@@ -166,7 +179,9 @@ const Menu = ({ logoImage }: IMenu) => {
       <Hamburger
         label="Menu"
         state={megaTMenuState}
-        onClick={(e) => toggleMegaMenu(e, 'nav-main')}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          toggleMegaMenu(e, 'nav-main')
+        }
       />
       <Nav
         id="site-nav"
@@ -458,173 +473,6 @@ const Menu = ({ logoImage }: IMenu) => {
                     >
                       Sub menu item 4.6
                     </NavItemLink>
-                  </NavItem>
-                </NavList>
-              </NavItem>
-            </MegaList>
-          </MainNavItem>
-          <MainNavItem id="nav-Mega-Menu-2" role="none" isChildren>
-            <MainNavItemLink
-              role="menuitem"
-              id="menuitem-Mega-Menu-2"
-              href="/?page=mega-menu"
-              isForward
-              isActive={!!activeMenus.includes('menu-Mega-Menu-2')}
-              onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu-2')}
-              // onMouseEnter={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
-              onKeyDown={(e) =>
-                a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu-2')
-              }
-              ariaHaspopup="true"
-              ariaControls="menu-Mega-Menu-2"
-            >
-              Mega Menu 2
-            </MainNavItemLink>
-            <MegaList
-              id="menu-Mega-Menu-2"
-              activeState={
-                activeMenus.includes('menu-Mega-Menu-2') ? 'open' : 'closed'
-              }
-            >
-              <NavItem id="nav-Mega-Menu-back" isHeading={true}>
-                <NavItemLink
-                  id="menuitem-Mega-Menu-back"
-                  href="/?page=mega-menu"
-                  onClick={(e) => toggleSubMenu(e, 'menu-Mega-Menu')}
-                  onKeyDown={(e) =>
-                    a11yClick(e) && toggleSubMenu(e, 'menu-Mega-Menu')
-                  }
-                  ariaControls="nav-main-Mega-Menu"
-                  isBack
-                >
-                  Mega Menu 2
-                </NavItemLink>
-              </NavItem>
-              <NavItem id="nav-Mega-Menu-Sub-menu-item-1" role="none">
-                <NavItemLink
-                  id="menuitem-Mega-Menu-Sub-menu-item-1"
-                  role="menuitem"
-                  href="/?page=sub-menu-item-1"
-                  isHeading
-                >
-                  Sub menu item 1
-                </NavItemLink>
-                <NavItemDescription>
-                  Single line description that accompanies link
-                </NavItemDescription>
-              </NavItem>
-              <NavItem id="nav-Mega-Menu-Sub-menu-item-2" role="none">
-                <NavItemLink
-                  id="menuitem-Mega-Menu-Sub-menu-item-2"
-                  role="menuitem"
-                  href="/?page=sub-menu-item-2"
-                  isHeading
-                >
-                  Sub menu item 2
-                </NavItemLink>
-                <NavItemDescription>
-                  Double lined small description that accompanies link in the
-                  React Mega Menu project
-                </NavItemDescription>
-              </NavItem>
-              <NavItem id="nav-Mega-Menu-Sub-menu-item-3" role="none">
-                <NavItemLink
-                  id="menuitem-Mega-Menu-Sub-menu-item-3"
-                  role="menuitem"
-                  href="/?page=sub-menu-item-3"
-                  isHeading
-                  isForward
-                  onClick={(e) =>
-                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
-                  }
-                  onKeyDown={(e) =>
-                    a11yClick(e) &&
-                    toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
-                  }
-                  ariaHaspopup="true"
-                  ariaControls="menu-Mega-Menu-Sub-menu-item-3"
-                >
-                  Sub menu item 3
-                </NavItemLink>
-                <NavItemDescription>
-                  Three lined small description that accompanies link in the
-                  React Mega Menu project. This maybe too much text? Who&lsquo;s
-                  to say, really. We&lsquo;ll leave it to fate to decide.
-                </NavItemDescription>
-                <NavList
-                  id="menu-Mega-Menu-Sub-menu-item-3"
-                  role="menu"
-                  isSub
-                  isSubSub
-                  activeState={
-                    activeMenus.includes('menu-Mega-Menu-Sub-menu-item-3')
-                      ? 'open'
-                      : 'closed'
-                  }
-                  ariaLabelledby="menuitem-Mega-Menu-Sub-menu-item-3"
-                >
-                  <NavItem
-                    id="nav-Mega-Menu-Sub-menu-item-3-back"
-                    role="none"
-                    isHeading
-                  >
-                    <NavItemLink
-                      id="menuitem-Mega-Menu-Sub-menu-item-3-back"
-                      role="menuitem"
-                      href="/?page=sub-menu-item-3"
-                      isBack
-                      onClick={(e) =>
-                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
-                      }
-                      onKeyDown={(e) =>
-                        a11yClick(e) &&
-                        toggleSubSubMenu(e, 'menu-Mega-Menu-Sub-menu-item-3')
-                      }
-                      ariaHaspopup="true"
-                      ariaControls="menu-Mega-Menu-Sub-menu-item-3"
-                    >
-                      Sub menu item 3
-                    </NavItemLink>
-                  </NavItem>
-                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.1" role="none">
-                    <NavItemLink
-                      id="menuitem-Mega-Menu-Sub-menu-item-3.1"
-                      role="menuitem"
-                      href="/?page=sub-menu-item-3.1"
-                    >
-                      Sub menu item 3.1
-                    </NavItemLink>
-                    <NavItemDescription>
-                      Single line description that accompanies link
-                    </NavItemDescription>
-                  </NavItem>
-                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.2" role="none">
-                    <NavItemLink
-                      id="menuitem-Mega-Menu-Sub-menu-item-3.2"
-                      role="menuitem"
-                      href="/?page=sub-menu-item-3.2"
-                    >
-                      Sub menu item 3.2
-                    </NavItemLink>
-                    <NavItemDescription>
-                      Double lined small description that accompanies link in
-                      the React Mega Menu project
-                    </NavItemDescription>
-                  </NavItem>
-                  <NavItem id="nav-Mega-Menu-Sub-menu-item-3.3" role="none">
-                    <NavItemLink
-                      id="menuitem-Mega-Menu-Sub-menu-item-3.3"
-                      role="menuitem"
-                      href="/?page=sub-menu-item-3.3"
-                    >
-                      Sub menu item 3.3
-                    </NavItemLink>
-                    <NavItemDescription>
-                      Three lined small description that accompanies link in the
-                      React Mega Menu project. This maybe too much text?
-                      Who&lsquo;s to say, really. We&lsquo;ll leave it to fate
-                      to decide.
-                    </NavItemDescription>
                   </NavItem>
                 </NavList>
               </NavItem>

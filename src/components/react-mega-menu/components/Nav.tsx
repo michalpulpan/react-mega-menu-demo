@@ -1,13 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 // Utils
 import { classNames } from '../utils/css'
+import { TMenuState } from '../utils/MenuStateMachine'
 
 interface INavProps {
   id: string
   ariaLabel: string
-  activeState: '' | 'open' | 'closed'
+  activeState: TMenuState
   children: React.ReactNode
 }
 

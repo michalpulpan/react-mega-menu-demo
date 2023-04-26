@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 // Utils
 import { classNames } from '../utils/css'
+import { TMenuState } from '../utils/MenuStateMachine'
 
 interface INavListProps {
   id: string
@@ -10,7 +9,7 @@ interface INavListProps {
   isSub?: boolean
   isSubSub?: boolean
   isDropdown?: boolean
-  activeState: '' | 'open' | 'closed'
+  activeState: TMenuState
   ariaLabelledby: string
   children: React.ReactNode
 }

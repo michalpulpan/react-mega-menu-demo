@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
+import React, { MouseEvent } from 'react'
+import { TMenuState } from '../utils/MenuStateMachine'
 interface IHamburgerProps {
   label?: string
-  state: '' | 'open' | 'closed'
-  onClick?: () => void
+  state: TMenuState
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const Hamburger = ({ label, state, onClick }: IHamburgerProps) => {

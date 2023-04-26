@@ -1,6 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
+import React, { MouseEvent, KeyboardEvent } from 'react'
 // Utils
 import { classNames } from '../utils/css'
 
@@ -13,8 +11,8 @@ interface INavItemLinkProps {
   isForward?: boolean
   isActive?: boolean
   className?: string
-  onClick?: () => void
-  onKeyDown?: () => void
+  onClick?: (e: MouseEvent<HTMLAnchorElement>) => void
+  onKeyDown?: (e: KeyboardEvent<HTMLAnchorElement>) => void
   ariaHaspopup?:
     | boolean
     | 'dialog'
@@ -22,6 +20,8 @@ interface INavItemLinkProps {
     | 'grid'
     | 'listbox'
     | 'tree'
+    | 'true'
+    | 'false'
     | false
     | true
     | undefined

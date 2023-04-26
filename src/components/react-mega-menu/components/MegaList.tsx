@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 // Utils
 import { classNames } from '../utils/css'
+import { TMenuState } from '../utils/MenuStateMachine'
 
 interface IMegaListProps {
   id: string
-  activeState: '' | 'open' | 'closed'
+  activeState: TMenuState
   children: React.ReactNode
 }
 

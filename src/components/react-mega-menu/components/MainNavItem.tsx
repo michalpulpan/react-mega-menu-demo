@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 // Utils
 import { classNames } from '../utils/css'
 

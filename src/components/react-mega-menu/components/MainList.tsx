@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 interface IMainList {
   id: string
   ariaLabel?: string
