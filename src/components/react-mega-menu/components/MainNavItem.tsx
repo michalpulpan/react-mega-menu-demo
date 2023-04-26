@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // Utils
-import { classNames } from '../../utils/css'
+import { classNames } from '../utils/css'
 
 interface IMainNavItemProps {
   id: string

@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 // Components
-import TopBar from './components/TopBar/TopBar'
+import TopBar from './components/TopBar'
 import Logo from './components/Logo'
-import TopBarTitle from './components/TopBarTitle/TopBarTitle'
+import TopBarTitle from './components/TopBarTitle'
 import Hamburger from './components/Hamburger'
 import Nav from './components/Nav'
 import MainList from './components/MainList'
@@ -17,7 +17,7 @@ import NavList from './components/NavList'
 import NavItemDescription from './components/NavItemDescription'
 
 // State Machines
-import { TMenuState, MenuStateMachine } from './state-machines/menus'
+import { TMenuState, MenuStateMachine } from './utils/MenuStateMachine'
 
 interface IMenu {
   logoImage: string
